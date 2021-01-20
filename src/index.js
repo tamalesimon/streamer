@@ -17,6 +17,6 @@ ReactDOM.render(
 reportWebVitals();
 
 //for production
-if(module.hot) {
+/* if(module.hot) {
   module.hot.accept();
-};
+}; */

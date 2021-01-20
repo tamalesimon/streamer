@@ -1,11 +1,30 @@
+import { BrowserRouter, Route } from "react-router-dom";
+
+//CRUD components
+import ChannelList from './components/channels/ChannelList';
+import ChannelCreate from './components/channels/ChannelCreate';
+import ChannelDelete from './components/channels/ChannelDelete';
+import ChannelEdit from './components/channels/ChannelEdit';
+import ChannelShow from './components/channels/ChannelShow';
+
+import Header from "./components/Header";
+
 import './styles/main.css';
+
 
 function App() {
   return (
-    <>
-      <div className="container mx-auto">
-        <div className="text-xl text-blue-500 font-bold">Streamer App</div>
-      </div>
+    <>       
+      <BrowserRouter>
+        <Header/>
+        <div>
+          <Route path="/" exact component={ChannelList}/>
+          <Route path="/channel/new" component={ChannelCreate}/>
+          <Route path="/channel/edit" component={ChannelEdit}/>
+          <Route path="/channel/delete" component={ChannelDelete}/>
+          <Route path="/channel/show" component={ChannelShow}/>   
+        </div>
+      </BrowserRouter>      
     </>
   );
 }
