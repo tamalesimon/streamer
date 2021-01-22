@@ -3,6 +3,14 @@ import { connect } from 'react-redux';
 import { signIn, signOut } from '../actions';
 
 class GoogleAuth extends Component {
+    constructor() {
+        super();
+    
+        this.handleSignIn = this.handleSignIn.bind(this);
+        this.handleSignOut = this.handleSignOut.bind(this);
+        this.onAuthChanged = this.onAuthChanged.bind(this);
+    }
+    
         componentDidMount() {
         //initiallising the gapi library
         window.gapi.load('client:auth2', () => {
@@ -13,22 +21,31 @@ class GoogleAuth extends Component {
             })
             .then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance();
-                /* this.setState({ isSignedIn: this.auth.isSignedIn.get() });
-                //onAuthChanged(); */
                 this.onAuthChanged(this.auth.isSignedIn.get());
                 this.auth.isSignedIn.listen(this.onAuthChanged);
             }); 
         });
 
     }
+    
 
-    onAuthChanged = isSignedIn => {
+    
 
-        let gId = this.auth.currentUser.get().getId();
-        let gName = this.auth.currentUser.get().getBasicProfile().getName(); 
+    handleSignOut(){
+        this.auth.signOut();    
+     }
+
+    handleSignIn(){
+        this.auth.signIn();
+     };
+
+     onAuthChanged (isSignedIn){
+        //getting userId and userName from Gapi
+        let userId = this.auth.currentUser.get().getId();
+        let userName = this.auth.currentUser.get().getBasicProfile().getName(); 
 
         if(isSignedIn){
-            this.props.signIn(gId, gName);
+            this.props.signIn(userId, userName);
         }else {
             this.props.signOut();
         }
@@ -36,15 +53,7 @@ class GoogleAuth extends Component {
         //removing component state
         // this.setState({ isSignedIn: this.auth.isSignedIn.get() });
         
-    }; 
-
-    handleSignOut = () => {
-        this.auth.signOut();    
-     }
-
-    handleSignIn = () => {
-        this.auth.signIn();
-     };
+    }
 
     //helper functions
     renderAuthButton() {
@@ -68,7 +77,13 @@ class GoogleAuth extends Component {
 };
 
  const mapStateToProps = (state) => {
-    return {isSignedIn: state.authReducer.isSignedIn}
+    return {
+        isSignedIn: state.authReducer.isSignedIn,
+        userId: state.authReducer.userId,
+        userName: state.authReducer.userName
+        
+    }
+
 } 
 
 export default connect(mapStateToProps, {
