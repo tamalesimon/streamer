@@ -80,8 +80,7 @@ class GoogleAuth extends Component {
     return {
         isSignedIn: state.authReducer.isSignedIn,
         userId: state.authReducer.userId,
-        userName: state.authReducer.userName
-        
+        userName: state.authReducer.userName        
     }
 
 } 

@@ -27,7 +27,7 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-require('dotenv').config();
+// require('dotenv').config();
 
 //for production
 /* if(module.hot) {
